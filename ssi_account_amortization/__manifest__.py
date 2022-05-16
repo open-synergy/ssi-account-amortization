@@ -4,7 +4,7 @@
 # pylint: disable=locally-disabled, manifest-required-author
 {
     "name": "Account Amortization",
-    "version": "14.0.1.0.0",
+    "version": "14.0.1.1.0",
     "category": "Accounting",
     "website": "https://simetri-sinergi.id",
     "author": "OpenSynergy Indonesia, PT. Simetri Sinergi Indonesia",
@@ -30,6 +30,7 @@
         "data/ir_actions_server_data.xml",
         "data/base_automation_data.xml",
         "data/policy_template_data.xml",
+        "views/res_config_settings_views.xml",
         "views/amortization_type_views.xml",
         "views/amortization_views.xml",
     ],
