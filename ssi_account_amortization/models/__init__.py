@@ -3,6 +3,8 @@
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl-3.0-standalone.html).
 
 from . import (
+    res_company,
+    res_config_settings,
     amortization_type,
     account_amortization,
     amortization_schedule,
