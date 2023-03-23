@@ -4,12 +4,18 @@
 # pylint: disable=locally-disabled, manifest-required-author
 {
     "name": "Account Amortization",
-    "version": "14.0.1.1.0",
+    "version": "14.0.2.0.0",
     "category": "Accounting",
     "website": "https://simetri-sinergi.id",
     "author": "OpenSynergy Indonesia, PT. Simetri Sinergi Indonesia",
     "license": "LGPL-3",
     "installable": True,
+    "external_dependencies": {
+        "python": [
+            "numpy-financial",
+            "pandas",
+        ],
+    },
     "depends": [
         "ssi_financial_accounting",
         "ssi_master_data_mixin",
