@@ -128,15 +128,7 @@ class AmortizationSchedule(models.Model):
 
     def _unreconcile_account_move(self):
         self.ensure_one()
-        aml = self.amortization_id.move_line_id
-        reconcile = aml.reconcile_id or aml.reconcile_partial_id or False
-        if reconcile:
-            move_lines = reconcile.line_id
-            move_lines -= self.move_line_id
-            reconcile.unlink()
-
-            if len(move_lines) >= 2:
-                move_lines.reconcile_partial()
+        self.move_line_id.remove_move_reconcile()
 
     def _create_account_move(self):
         self.ensure_one()
@@ -150,6 +142,7 @@ class AmortizationSchedule(models.Model):
         obj_aml.with_context(check_move_validity=False).create(
             self._prepare_contra_amortization_aml(move)
         )
+        move.action_post()
 
         if self.amortization_id.move_line_id:
             self._reconcile_account_move()
@@ -159,7 +152,7 @@ class AmortizationSchedule(models.Model):
         self.ensure_one()
         aml_to_be_reconcile = self.amortization_id.move_line_id
         aml_to_be_reconcile += self.move_line_id
-        aml_to_be_reconcile.reconcile_partial()
+        aml_to_be_reconcile.reconcile()
 
     def _prepare_account_move(self):
         self.ensure_one()
