@@ -332,17 +332,27 @@ class Amortization(models.Model):
 
     @api.constrains("state")
     def _check_cancel(self):
-        error_msg = """You cannot cancel amortization with more than one schedule amortized
-
-        Unpost all amortization schedule"""
         for record in self.sudo():
-            criteria = [("amortization_id", "=", record.id), ("state", "!=", "draft")]
-            count_amortized_schedule = self.env[
-                "account.amortization_schedule"
-            ].search_count(criteria)
-            if count_amortized_schedule > 0:
-
-                raise ValidationError(_(error_msg))
+            error_message = """
+            Document Type: %s
+            Context: Cancel document
+            Database ID: %s
+            Problem: One or more amortization schedule already posted
+            Solution: Cancel posted amortization schedule
+            """ % (
+                self._description.lower(),
+                record.id,
+            )
+            if record.state == "cancel":
+                criteria = [
+                    ("amortization_id", "=", record.id),
+                    ("state", "!=", "draft"),
+                ]
+                count_amortized_schedule = self.env[
+                    "account.amortization_schedule"
+                ].search_count(criteria)
+                if count_amortized_schedule > 0:
+                    raise ValidationError(_(error_message))
 
     @api.onchange(
         "type_id",
