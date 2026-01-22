@@ -12,7 +12,7 @@ _logger = logging.getLogger(__name__)
 try:
     import numpy_financial as npf
     import pandas as pd
-except (ImportError, IOError) as err:  # pragma: no cover
+except (ImportError, OSError) as err:  # pragma: no cover
     _logger.debug(err)
 
 
@@ -144,6 +144,7 @@ class Amortization(models.Model):
         string="Allowed Move Lines",
         comodel_name="account.move.line",
         compute="_compute_allowed_aml_ids",
+        compute_sudo=True,
     )
 
     move_line_id = fields.Many2one(
@@ -254,11 +255,13 @@ class Amortization(models.Model):
         string="Amount Residual",
         compute="_compute_move_line",
         store=True,
+        compute_sudo=True,
     )
     amortized = fields.Boolean(
         string="Amortized",
         compute="_compute_move_line",
         store=True,
+        compute_sudo=True,
     )
     schedule_ids = fields.One2many(
         string="Amortization Schedule",
@@ -281,7 +284,7 @@ class Amortization(models.Model):
 
     @api.model
     def _get_policy_field(self):
-        res = super(Amortization, self)._get_policy_field()
+        res = super()._get_policy_field()
         policy_field = [
             "confirm_ok",
             "approve_ok",

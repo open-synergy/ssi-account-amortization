@@ -52,6 +52,7 @@ class AmortizationSchedule(models.Model):
         string="# Move",
         comodel_name="account.move",
         related="move_line_id.move_id",
+        compute_sudo=True,
     )
     amortization_state = fields.Selection(
         string="Amortization State",
@@ -65,6 +66,7 @@ class AmortizationSchedule(models.Model):
         readonly=True,
         compute="_compute_amortization_state",
         store=False,
+        compute_sudo=True,
     )
     manual = fields.Boolean(
         string="Manual",
@@ -79,6 +81,7 @@ class AmortizationSchedule(models.Model):
         ],
         compute="_compute_state",
         store=True,
+        compute_sudo=True,
     )
 
     def action_create_account_move(self):
