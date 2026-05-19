@@ -1,0 +1,119 @@
+scenarios:
+  - name: "Amortization Type - Create"
+    steps:
+      - step: "Get journal for amortization type"
+        action: "search"
+        model: "account.journal"
+        domain: [["type", "=", "general"]]
+        save_as: "journal"
+        limit: 1
+
+      - step: "Get account type current assets"
+        action: "ref"
+        xml_id: "account.data_account_type_current_assets"
+        save_as: "account_type_assets"
+
+      - step: "Get account type expenses"
+        action: "ref"
+        xml_id: "account.data_account_type_expenses"
+        save_as: "account_type_expenses"
+
+      - step: "Create debit account"
+        action: "create"
+        model: "account.account"
+        save_as: "account"
+        values:
+          name: "Test Prepaid Expense (Type Test)"
+          code: "XAMRTY01"
+          user_type_id: "EVAL: registry['account_type_assets'].id"
+          reconcile: true
+
+      - step: "Create contra account"
+        action: "create"
+        model: "account.account"
+        save_as: "contra_account"
+        values:
+          name: "Test Expense (Type Test)"
+          code: "XAMRTY02"
+          user_type_id: "EVAL: registry['account_type_expenses'].id"
+
+      - step: "Create amortization type"
+        action: "create"
+        model: "account.amortization_type"
+        save_as: "amortization_type"
+        values:
+          name: "Test Amortization Type"
+          code: "TAMRT01"
+          direction: "dr"
+          journal_id: "EVAL: registry['journal'].id"
+          account_id: "EVAL: registry['account'].id"
+          contra_account_id: "EVAL: registry['contra_account'].id"
+
+      - step: "Assert amortization type created"
+        action: "assert"
+        target: "amortization_type"
+        asserts:
+          id:
+            type: "value"
+            operator: "is_truthy"
+          name:
+            type: "value"
+            expected: "Test Amortization Type"
+          code:
+            type: "value"
+            expected: "TAMRT01"
+          direction:
+            type: "value"
+            expected: "dr"
+
+  - name: "Amortization Type - Edit"
+    steps:
+      - step: "Create amortization type"
+        action: "create"
+        model: "account.amortization_type"
+        save_as: "amortization_type"
+        values:
+          name: "Original Type Name"
+          code: "TAMRT02"
+          direction: "cr"
+
+      - step: "Edit amortization type name"
+        action: "write"
+        target: "amortization_type"
+        values:
+          name: "Updated Type Name"
+          direction: "dr"
+
+      - step: "Assert name updated"
+        action: "assert"
+        target: "amortization_type"
+        asserts:
+          name:
+            type: "value"
+            expected: "Updated Type Name"
+          direction:
+            type: "value"
+            expected: "dr"
+
+  - name: "Amortization Type - Delete"
+    steps:
+      - step: "Create amortization type to delete"
+        action: "create"
+        model: "account.amortization_type"
+        save_as: "amortization_type"
+        values:
+          name: "Type To Delete"
+          code: "TAMRT03"
+          direction: "dr"
+
+      - step: "Delete amortization type"
+        action: "call"
+        target: "amortization_type"
+        method: "unlink"
+
+      - step: "Verify deleted"
+        action: "search"
+        model: "account.amortization_type"
+        domain: [["code", "=", "TAMRT03"]]
+        save_as: "result"
+        expect_count: 0
