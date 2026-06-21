@@ -420,6 +420,7 @@ msgstr ""
 
 #. module: ssi_account_amortization
 #: model:ir.model.fields,field_description:ssi_account_amortization.field_account_amortization_type__direction
+#: model_terms:ir.ui.view,arch_db:ssi_account_amortization.account_amortization_type_view_search
 msgid "Direction"
 msgstr ""
 
@@ -475,6 +476,11 @@ msgstr ""
 #: model:ir.model.fields,help:ssi_account_amortization.field_account_amortization__activity_type_icon
 #: model:ir.model.fields,help:ssi_account_amortization.field_account_amortization_type__activity_type_icon
 msgid "Font awesome icon e.g. fa-tasks"
+msgstr ""
+
+#. module: ssi_account_amortization
+#: model_terms:ir.ui.view,arch_db:ssi_account_amortization.account_amortization_type_view_search
+msgid "Group By"
 msgstr ""
 
 #. module: ssi_account_amortization
@@ -847,6 +853,11 @@ msgid ""
 "  Manual number assignment can be done in 'Draft' state\n"
 "  Only user with 'Can Manualy Assign Number' policy can manually assign number.\n"
 "* Transaction with number other than '/' can not be deleted."
+msgstr ""
+
+#. module: ssi_account_amortization
+#: model_terms:ir.ui.view,arch_db:ssi_account_amortization.amortization_view_search
+msgid "Type"
 msgstr ""
 
 #. module: ssi_account_amortization
