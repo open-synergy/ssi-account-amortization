@@ -18,7 +18,7 @@ Available addons
 ----------------
 addon | version | maintainers | summary
 --- | --- | --- | ---
-[ssi_account_amortization](ssi_account_amortization/) | 14.0.2.3.0 |  | Account Amortization
+[ssi_account_amortization](ssi_account_amortization/) | 14.0.2.4.0 |  | Account Amortization
 [ssi_account_amortization_operating_unit](ssi_account_amortization_operating_unit/) | 14.0.1.0.0 |  | Account Amortization - Operating Unit Integration
 
 [//]: # (end addons)
